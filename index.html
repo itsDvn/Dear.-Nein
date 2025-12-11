@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Halow Nein</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+
+  #circle {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0.5;
+    animation: float 8s infinite alternate ease-in-out;
+  }
+
+  @keyframes float {
+    0% { transform: translate(-200px, -150px); }
+    25% { transform: translate(150px, -120px); }
+    50% { transform: translate(200px, 180px); }
+    75% { transform: translate(-150px, 200px); }
+    100% { transform: translate(-200px, -150px); }
+  }
+
+  #text {
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    max-width: 700px;
+    padding: 20px;
+    cursor: pointer;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px white; }
+    to { text-shadow: 0 0 25px white; }
+  }
+
+  /* Particle explosion */
+  .particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: hsl(var(--hue), 100%, 50%);
+    animation: explode 1.2s forwards ease-out;
+  }
+
+  @keyframes explode {
+    to {
+      transform: translate(var(--x), var(--y)) scale(0.2);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="circle"></div>
+<div id="text">Halow Nein</div>
+
+<script>
+let textIndex = 0;
+const textElement = document.getElementById("text");
+
+const messages = [
+  "Halow Nein",
+  "This is my girlfriends i love her because, she brought color on my world and i don't want to leave her",
+  `✨ Pesan yang bisa kamu kirim ke Nandine<br><br>
+  “Nandine, aku cuma mau bilang maaf kalau akhir-akhir ini aku ada salah.<br>
+  I’m still learning to be better for you.<br>
+  Aku sayang sama kamu bukan cuma hari ini, tapi setiap hari.<br>
+  Aku cuma berharap kamu tetap di sini, tetap sama aku, karena kamu berarti banyak buat aku.<br>
+  Thank you for staying with me… I won’t stop trying to be better.”`
+];
+
+function explodeAndClose() {
+  const rect = textElement.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  for (let i = 0; i < 80; i++) {
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 200 + Math.random() * 200;
+    p.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+    p.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+    p.style.setProperty("--hue", Math.floor(Math.random() * 360));
+    p.style.left = centerX + "px";
+    p.style.top = centerY + "px";
+    document.body.appendChild(p);
+  }
+
+  setTimeout(() => {
+    window.close();
+  }, 1200);
+}
+
+textElement.addEventListener("click", () => {
+  textIndex++;
+  if (textIndex < messages.length) {
+    textElement.innerHTML = messages[textIndex];
+  } else {
+    textElement.style.opacity = 0;
+    explodeAndClose();
+  }
+});
+</script>
+</body>
+</html>
