@@ -16,14 +16,23 @@
     font-family: Arial, sans-serif;
   }
 
-  #circle {
+  #circles div {
     position: absolute;
-    width: 120px;
-    height: 120px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     background: white;
-    opacity: 0.5;
-    animation: float 8s infinite alternate ease-in-out;
+    opacity: 0.9;
+    box-shadow: 0 0 12px white, 0 0 20px white;
+    animation: float 10s infinite alternate ease-in-out;
+  }
+
+  @keyframes float {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(40px, -60px); }
+    50% { transform: translate(-50px, 50px); }
+    75% { transform: translate(60px, 40px); }
+    100% { transform: translate(-40px, -50px); }
   }
 
   @keyframes float {
@@ -69,12 +78,23 @@
 </head>
 <body>
 
-<div id="circle"></div>
+<div id="circles"></div>
 <div id="text">Halow Nein</div>
 
 <script>
 let textIndex = 0;
 const textElement = document.getElementById("text");
+
+// Create many mini glowing circles
+const container = document.getElementById("circles");
+for (let i = 0; i < 25; i++) {
+  const c = document.createElement("div");
+  c.style.left = Math.random() * window.innerWidth + "px";
+  c.style.top = Math.random() * window.innerHeight + "px";
+  c.style.animationDelay = (Math.random() * 6) + "s";
+  c.style.opacity = 0.7 + Math.random() * 0.3;
+  container.appendChild(c);
+}
 
 const messages = [
   "Halow Nein",
