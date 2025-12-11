@@ -96,7 +96,7 @@ for (let i = 0; i < 25; i++) {
   container.appendChild(c);
 }
 
-const messages = [
+let fullMessages = [
   "Halow Nein",
   "This is my girlfriends i love her because, she brought color on my world and i don't want to leave her",
   `✨ Pesan yang bisa kamu kirim ke Nandine<br><br>
@@ -106,6 +106,21 @@ const messages = [
   Aku cuma berharap kamu tetap di sini, tetap sama aku, karena kamu berarti banyak buat aku.<br>
   Thank you for staying with me… I won’t stop trying to be better.”`
 ];
+
+// Typewriter animation
+function typeText(text) {
+  let i = 0;
+  textElement.innerHTML = "";
+
+  function typing() {
+    if (i < text.length) {
+      textElement.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+      i++;
+      setTimeout(typing, 25);
+    }
+  }
+  typing();
+}
 
 function explodeAndClose() {
   const rect = textElement.getBoundingClientRect();
@@ -131,6 +146,16 @@ function explodeAndClose() {
 }
 
 textElement.addEventListener("click", () => {
+  textIndex++;
+  if (textIndex < fullMessages.length) {
+    typeText(fullMessages[textIndex]);
+  } else {
+    textElement.style.opacity = 0;
+    explodeAndClose();
+  }
+});
+
+typeText(fullMessages[0]); // Start typing the first message("click", () => {
   textIndex++;
   if (textIndex < messages.length) {
     textElement.innerHTML = messages[textIndex];
